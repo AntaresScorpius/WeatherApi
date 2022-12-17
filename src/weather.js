@@ -9,9 +9,21 @@ const Weather = () => {
   let [pressure, setPressure] = React.useState([]);
   let [windspeed, setWindSpeed] = React.useState([]);
   let [winddirection, setDirection] = React.useState([]);
+  const [lat, setlat] = React.useState(0);
+  const [long, setLong] = React.useState(0);
+  const successCallback = (position) => {
+    setlat(position.coords.latitude);
+    setLong(position.coords.longitude);
+  };
+
+  const errorCallback = (error) => {
+    console.log(error);
+  };
+  navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
   let getData = () => {
+    console.log(lat, long);
     fetch(
-      "https://api.open-meteo.com/v1/forecast?latitude=18.52&longitude=73.86&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,surface_pressure,windspeed_10m,winddirection_10m"
+      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,surface_pressure,windspeed_10m,winddirection_10m`
     )
       .then((res) => res.json())
       .then((response) => {
@@ -35,7 +47,9 @@ const Weather = () => {
       </button>
       <h1>Curent Weather</h1>
       <div className="weather">
-        <p>Location: Pune </p>
+        <p>
+          Location: {lat} {long}{" "}
+        </p>
         <p>
           Latitude:{data.latitude}&emsp;&emsp; &emsp; Longitude:{data.longitude}
         </p>
