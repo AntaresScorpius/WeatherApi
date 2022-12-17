@@ -45,7 +45,7 @@ const Weather = () => {
       <button className="btn" type="button" onClick={getData}>
         Get Weather
       </button>
-      <h1>Curent Weather</h1>
+      <h1>Current Weather</h1>
       <div className="weather">
         <p>
           Location: {lat} {long}{" "}
